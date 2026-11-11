@@ -1,0 +1,92 @@
+==========================================================================================
+A. Re-analysis of the 2020 figures
+==========================================================================================
+Fig 1 circuit, ideal probabilities : {'00101': 0.25, '00110': 0.25, '01001': 0.125, '01010': 0.125, '10001': 0.125, '10010': 0.125}
+Fig 1 histogram (%), sum           : {'00101': 24.902, '00110': 24.609, '01001': 11.621, '01010': 12.793, '10001': 11.816, '10010': 14.258} 99.999
+Fig 1 histogram x 1024 shots       : {'00101': 255.0, '00110': 252.0, '01001': 119.0, '01010': 131.0, '10001': 121.0, '10010': 146.0}
+Fig 1 TVD(histogram, ideal)        : 0.0205
+  -> egress split is 1/2, 1/4, 1/4 (cascaded cH), not 1/3 each
+
+Fig 2 paths: [('A->B->D', '01001'), ('A->C->B->D', '01110'), ('A->C->D', '10010')]
+2020 circuit distribution (equal split per node): {'10010': 0.25, '01110': 0.25, '01001': 0.5}
+2020 hardware: valid fraction = 61.718%  ([308.0, 159.0, 165.0] of 1024 shots)
+2020 hardware post-selected   : {'01001': 0.4873, '01110': 0.2516, '10010': 0.2611}
+TVD(post-selected, ideal walk): 0.0127
+sampling-noise scale for 632 valid shots: sigma(p=0.5) = 0.0199
+2020 Cirq sample (12 shots)   : {'01001': 8, '01110': 2, '10010': 2}
+all 20 bars read off Fig 2(c) sum to 96.58% (screenshot is low-res; treat as approximate)
+
+==========================================================================================
+B. New state-prep circuit U_S: correctness (gate level) and size
+==========================================================================================
+I1 fig2 (4 nodes)      |V|= 4 qubits=|E|= 5 paths=  3 dist=3 CX(U_S)=9 (formula 9) N(s)=3 | gate-level uniform over paths: True | gibbs prep exact: True
+I2 transit mesh m=4    |V|= 6 qubits=|E|= 9 paths=  5 dist=3 CX(U_S)=16 (formula 16) N(s)=5 | gate-level uniform over paths: True | gibbs prep exact: True
+I3 layered 2x3         |V|= 8 qubits=|E|=12 paths=  8 dist=4 CX(U_S)=25 (formula 25) N(s)=8 | gate-level uniform over paths: True | gibbs prep exact: True
+I4 layered 3x3         |V|=11 qubits=|E|=24 paths= 27 dist=4 CX(U_S)=63 (formula 63) N(s)=27 | gate-level uniform over paths: True | gibbs prep exact: True
+I5 layered 4x4         |V|=18 qubits=|E|=56 paths=256 dist=4 CX(U_S)=169 (formula 169) N(s)=256 | (too large for gate-level check here; subspace only)
+random-DAG fuzz test of U_S: 292 DAGs tested (up to 16 arcs, 17 paths), failures = 0
+
+==========================================================================================
+C. Decoder: ideal success probability per shot (probability of the constrained optimum)
+==========================================================================================
+I1 fig2 (4 nodes)      D<=  6 feasible=  2/  3 opt: A->C->B->D cost=5 delay=6
+    min-cost path cost=3 (delay 10, infeasible); LARAC lambda=0.500; optimum is a Lagrangian minimiser: True
+    uniform sampling p=0: 0.3333 | linear-phase GM-QAOA p=1: 1.0000 (x3.00) p=2: 1.0000 (x3.00) | threshold oracle 1 round: 0.9259, 1 rounds: 0.9259
+    classical Boltzmann sampler at LARAC lambda, best tau=6.00: 0.5000 gate-level==subspace: True
+    Gibbs prep + linear-phase p=1: 1.0000 (x2.00 over the classical sampler) | Gibbs prep + threshold oracle, 1 round: 0.5001 (x1.00)
+    p=1 angles (gamma_c, gamma_d, beta) = [0.6981 1.3963 8.3776]
+I2 transit mesh m=4    D<=  6 feasible=  4/  5 opt: n0->n2->n5 cost=7 delay=6
+    min-cost path cost=6 (delay 7, infeasible); LARAC lambda=0.750; optimum is a Lagrangian minimiser: False
+    uniform sampling p=0: 0.2000 | linear-phase GM-QAOA p=1: 0.7426 (x3.71) p=2: 0.9834 (x4.92) | threshold oracle 1 round: 0.9680, 1 rounds: 0.9680
+    classical Boltzmann sampler at LARAC lambda, best tau=1.00: 0.2456 gate-level==subspace: True
+    Gibbs prep + linear-phase p=1: 0.9134 (x3.72 over the classical sampler) | Gibbs prep + threshold oracle, 1 round: 0.9998 (x4.07)
+    p=1 angles (gamma_c, gamma_d, beta) = [ 1.5464 -1.9524  3.6756]
+I3 layered 2x3         D<= 26 feasible=  6/  8 opt: n0->n1->n4->n5->n7 cost=13 delay=26
+    min-cost path cost=11 (delay 32, infeasible); LARAC lambda=0.333; optimum is a Lagrangian minimiser: True
+    uniform sampling p=0: 0.1250 | linear-phase GM-QAOA p=1: 0.5046 (x4.04) p=2: 0.9187 (x7.35) | threshold oracle 1 round: 0.7813, 2 rounds: 0.9453
+    classical Boltzmann sampler at LARAC lambda, best tau=6.00: 0.4678 gate-level==subspace: True
+    Gibbs prep + linear-phase p=1: 0.9992 (x2.14 over the classical sampler) | Gibbs prep + threshold oracle, 1 round: 0.5962 (x1.27)
+    p=1 angles (gamma_c, gamma_d, beta) = [ 0.4319 -0.3483  9.2217]
+I4 layered 3x3         D<= 22 feasible= 22/ 27 opt: n0->n1->n4->n9->n10 cost=16 delay=20
+    min-cost path cost=12 (delay 27, infeasible); LARAC lambda=0.571; optimum is a Lagrangian minimiser: True
+    uniform sampling p=0: 0.0370 | linear-phase GM-QAOA p=1: 0.1469 (x3.97) p=2: 0.3186 (x8.60) | threshold oracle 1 round: 0.3012, 4 rounds: 0.9707
+    classical Boltzmann sampler at LARAC lambda, best tau=6.00: 0.4931
+    Gibbs prep + linear-phase p=1: 1.0000 (x2.03 over the classical sampler) | Gibbs prep + threshold oracle, 1 round: 0.5208 (x1.06)
+    p=1 angles (gamma_c, gamma_d, beta) = [0.5723 0.4205 3.9979]
+I5 layered 4x4         D<= 39 feasible=250/256 opt: n0->n1->n8->n10->n16->n17 cost=14 delay=38
+    min-cost path cost=13 (delay 40, infeasible); LARAC lambda=0.333; optimum is a Lagrangian minimiser: False
+    uniform sampling p=0: 0.0039 | linear-phase GM-QAOA p=1: 0.0145 (x3.71) p=2: 0.0299 (x7.65) | threshold oracle 1 round: 0.0348, 12 rounds: 0.9999
+    classical Boltzmann sampler at LARAC lambda, best tau=2.11: 0.1137
+    Gibbs prep + linear-phase p=1: 0.3846 (x3.38 over the classical sampler) | Gibbs prep + threshold oracle, 1 round: 0.7364 (x6.48)
+    p=1 angles (gamma_c, gamma_d, beta) = [-0.1815 -0.0283  8.4893]
+
+==========================================================================================
+D. Planning forecast (crude): global depolarising with F = (1-eps)^(routing * CX) * (1-ro)^n
+==========================================================================================
+assumptions: routing overhead x2 on CX count, readout error 1%, reflection costed at 8n CX
+I1 fig2 (4 nodes)      eps=1e-03: CX U_S=  9, CX p=1=  67 | valid frac U_S~0.93, p=1~0.83 | success/shot p=0 0.3113 vs p=1 0.8317 -> gain x2.67
+I1 fig2 (4 nodes)      eps=3e-03: CX U_S=  9, CX p=1=  67 | valid frac U_S~0.90, p=1~0.64 | success/shot p=0 0.3003 vs p=1 0.6358 -> gain x2.12
+I2 transit mesh m=4    eps=1e-03: CX U_S= 16, CX p=1= 120 | valid frac U_S~0.88, p=1~0.72 | success/shot p=0 0.1769 vs p=1 0.5336 -> gain x3.02
+I2 transit mesh m=4    eps=3e-03: CX U_S= 16, CX p=1= 120 | valid frac U_S~0.83, p=1~0.44 | success/shot p=0 0.1660 vs p=1 0.3299 -> gain x1.99
+I3 layered 2x3         eps=1e-03: CX U_S= 25, CX p=1= 171 | valid frac U_S~0.84, p=1~0.63 | success/shot p=0 0.1054 vs p=1 0.3177 -> gain x3.01
+I3 layered 2x3         eps=3e-03: CX U_S= 25, CX p=1= 171 | valid frac U_S~0.76, p=1~0.32 | success/shot p=0 0.0953 vs p=1 0.1601 -> gain x1.68
+I4 layered 3x3         eps=1e-03: CX U_S= 63, CX p=1= 381 | valid frac U_S~0.69, p=1~0.37 | success/shot p=0 0.0257 vs p=1 0.0538 -> gain x2.10
+I4 layered 3x3         eps=3e-03: CX U_S= 63, CX p=1= 381 | valid frac U_S~0.54, p=1~0.08 | success/shot p=0 0.0199 vs p=1 0.0117 -> gain x0.59
+I5 layered 4x4         eps=1e-03: CX U_S=169, CX p=1= 955 | valid frac U_S~0.41, p=1~0.08 | success/shot p=0 0.0016 vs p=1 0.0012 -> gain x0.77
+I5 layered 4x4         eps=3e-03: CX U_S=169, CX p=1= 955 | valid frac U_S~0.21, p=1~0.00 | success/shot p=0 0.0008 vs p=1 0.0000 -> gain x0.03
+
+==========================================================================================
+E. Classical simulation of the linear-phase decoder (p+1 terms, complex-weight DP)
+==========================================================================================
+I1 fig2 (4 nodes)      max |P_classical - P_quantum| over all paths: uniform prep 7.8e-16, gibbs prep 6.7e-16
+I2 transit mesh m=4    max |P_classical - P_quantum| over all paths: uniform prep 1.4e-15, gibbs prep 2.8e-16
+I3 layered 2x3         max |P_classical - P_quantum| over all paths: uniform prep 9.2e-16, gibbs prep 1.4e-15
+I4 layered 3x3         max |P_classical - P_quantum| over all paths: uniform prep 6.0e-16, gibbs prep 1.6e-15
+I5 layered 4x4         max |P_classical - P_quantum| over all paths: uniform prep 4.2e-17, gibbs prep 1.9e-16
+I3, p=2 best angles: classical rejection sampler, 20000 samples, TVD to quantum distribution = 0.0035; proposals per accepted sample = 7.23 (bound (2p+1)^2 = 25)
+   empirical P(optimum) = 0.9163 vs quantum 0.9187
+I1 fig2 (4 nodes)      uniform a=0.3333: tuned 1 round 1.0000 (formula 1.0000) | gibbs a=0.5000: tuned 1 round 1.0000 (formula 1.0000) | classical samples for 90%: uniform 6, gibbs 4
+I2 transit mesh m=4    uniform a=0.2000: tuned 1 round 0.9680 (formula 0.9680) | gibbs a=0.2456: tuned 1 round 0.9998 (formula 0.9998) | classical samples for 90%: uniform 11, gibbs 9
+I3 layered 2x3         uniform a=0.1250: tuned 1 round 0.7812 (formula 0.7813) | gibbs a=0.4678: tuned 1 round 1.0000 (formula 1.0000) | classical samples for 90%: uniform 18, gibbs 4
+I4 layered 3x3         uniform a=0.0370: tuned 1 round 0.3012 (formula 0.3012) | gibbs a=0.4931: tuned 1 round 1.0000 (formula 1.0000) | classical samples for 90%: uniform 62, gibbs 4
+I5 layered 4x4         uniform a=0.0039: tuned 1 round 0.0348 (formula 0.0348) | gibbs a=0.1137: tuned 1 round 0.7364 (formula 0.7364) | classical samples for 90%: uniform 589, gibbs 20

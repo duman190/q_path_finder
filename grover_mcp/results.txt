@@ -1,0 +1,52 @@
+==========================================================================================
+A. Instances and range constraints (K = 3 metrics: cost, delay, third metric)
+==========================================================================================
+I1: |V|=4 |E|=5 paths N=3 ranges=[[2, 4], [9, 11], [2, 4]] in range per metric=[1, 1, 1] all three M=1
+    Grover rounds k*=1: success 0.3333 -> 0.9259 (formula 0.9259); |subspace - formula| <= 1.9e-15
+    random walks for 90%: 5.7; oracle calls for Grover: 1; accumulator bits [4, 4, 4]; qubits = 5 + 12 + 1 = 18
+I2: |V|=6 |E|=9 paths N=5 ranges=[[6, 8], [5, 7], [5, 7]] in range per metric=[3, 4, 3] all three M=2
+    Grover rounds k*=1: success 0.4000 -> 0.7840 (formula 0.7840); |subspace - formula| <= 4.4e-16
+    random walks for 90%: 4.5; oracle calls for Grover: 1; accumulator bits [4, 3, 3]; qubits = 9 + 10 + 1 = 20
+I3: |V|=8 |E|=12 paths N=8 ranges=[[16, 18], [20, 22], [7, 9]] in range per metric=[3, 4, 4] all three M=2
+    Grover rounds k*=1: success 0.2500 -> 1.0000 (formula 1.0000); |subspace - formula| <= 2.1e-15
+    random walks for 90%: 8.0; oracle calls for Grover: 1; accumulator bits [5, 6, 4]; qubits = 12 + 15 + 1 = 28
+I4: |V|=11 |E|=24 paths N=27 ranges=[[20, 22], [17, 19], [6, 8]] in range per metric=[5, 3, 12] all three M=1
+    Grover rounds k*=4: success 0.0370 -> 0.9707 (formula 0.9707); |subspace - formula| <= 1.1e-15
+    random walks for 90%: 61.0; oracle calls for Grover: 4; accumulator bits [5, 5, 4]; qubits = 24 + 14 + 1 = 39
+I5: |V|=18 |E|=56 paths N=256 ranges=[[24, 26], [25, 27], [6, 8]] in range per metric=[46, 45, 13] all three M=2
+    Grover rounds k*=8: success 0.0078 -> 0.9956 (formula 0.9956); |subspace - formula| <= 3.3e-16
+    random walks for 90%: 293.6; oracle calls for Grover: 8; accumulator bits [6, 6, 5]; qubits = 56 + 17 + 1 = 74
+
+==========================================================================================
+B. Register-level simulation (every gate of U_S, controlled adders, range test, un-computation)
+==========================================================================================
+I1: state of 5 arc qubits x accumulators [4, 4, 4] bits = 131,072 amplitudes
+    success after 0..3 rounds: [0.333333, 0.925926, 0.004115, 0.84545]
+    max deviation from sin^2((2k+1)theta), accumulator leak, invalid strings: 2.2e-16
+    gate counts over 3 rounds: {'x': 7, 'cx': 35, 'cry': 14, 'cadd': 90, 'range_test': 9, 'refl0': 3}
+I2: state of 9 arc qubits x accumulators [6, 5, 5] bits = 33,554,432 amplitudes
+    success after 0..3 rounds: [0.4, 0.784, 0.07744, 0.99351]
+    max deviation from sin^2((2k+1)theta), accumulator leak, invalid strings: 4.4e-16
+    gate counts over 3 rounds: {'x': 7, 'cx': 56, 'cry': 28, 'cadd': 162, 'range_test': 9, 'refl0': 3}
+
+==========================================================================================
+C. Scaling on layered DAGs (width w, depth d, N = w^d paths), path-subspace simulation
+==========================================================================================
+w=2 d= 4 |E|= 16 N=    16 M=   1 N/M=     16.0 k*=  3 success=0.9613 walks for 90%=     35.7
+w=2 d= 6 |E|= 24 N=    64 M=   1 N/M=     64.0 k*=  6 success=0.9966 walks for 90%=    146.2
+w=3 d= 4 |E|= 33 N=    81 M=   2 N/M=     40.5 k*=  4 success=0.9775 walks for 90%=     92.1
+w=2 d= 8 |E|= 32 N=   256 M=   1 N/M=    256.0 k*= 12 success=0.9999 walks for 90%=    588.3
+w=3 d= 5 |E|= 42 N=   243 M=   6 N/M=     40.5 k*=  4 success=0.9775 walks for 90%=     92.1
+w=4 d= 4 |E|= 56 N=   256 M=   6 N/M=     42.7 k*=  5 success=0.9857 walks for 90%=     97.1
+w=2 d=10 |E|= 40 N=  1024 M=   2 N/M=    512.0 k*= 17 success=0.9994 walks for 90%=   1177.8
+w=3 d= 6 |E|= 51 N=   729 M=   3 N/M=    243.0 k*= 12 success=0.9988 walks for 90%=    558.4
+w=4 d= 5 |E|= 72 N=  1024 M=   5 N/M=    204.8 k*= 11 success=0.9986 walks for 90%=    470.4
+w=3 d= 7 |E|= 60 N=  2187 M=   2 N/M=   1093.5 k*= 25 success=0.9992 walks for 90%=   2516.7
+w=4 d= 6 |E|= 88 N=  4096 M=  10 N/M=    409.6 k*= 15 success=0.9985 walks for 90%=    942.0
+w=3 d= 8 |E|= 69 N=  6561 M=   3 N/M=   2187.0 k*= 36 success=0.9999 walks for 90%=   5034.6
+w=4 d= 7 |E|=104 N= 16384 M=   7 N/M=   2340.6 k*= 37 success=0.9996 walks for 90%=   5388.2
+w=3 d= 9 |E|= 78 N= 19683 M=   6 N/M=   3280.5 k*= 44 success=0.9997 walks for 90%=   7552.5
+w=4 d= 8 |E|=120 N= 65536 M=  69 N/M=    949.8 k*= 24 success=0.9996 walks for 90%=   2185.8
+w=3 d=10 |E|= 87 N= 59049 M=  13 N/M=   4542.2 k*= 52 success=0.9998 walks for 90%=  10457.7
+w=4 d= 9 |E|=136 N=262144 M=  19 N/M=  13797.1 k*= 92 success=1.0000 walks for 90%=  31767.7
+log-log slope against N/M over the 16 instances with k* >= 4: Grover rounds 0.523 (theory 0.5), random walks 1.002 (theory 1)

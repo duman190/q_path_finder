@@ -1,0 +1,24 @@
+========================================================================================
+B1: m = 3 metrics, n = 2 stages, v = [1, 0, 0], backend ibm_marrakesh
+  signed weight-3 codewords of ker(B^T): sigma = -1; matrix [[0.0, 1.7321], [1.7321, -2.0]]; top eigenvalue 1.0000 -> mean score (m + lambda)/2 = 2.0000
+  weights from that matrix [0.866025, 0.5], weights used on hardware [0.866025, 0.5]
+     tuned weights (0.8660, 0.5000): mean score 2.0000, best-path share 1.0000, worst-score share 0.0000, per path 00:0.3333, 01:0.0000, 10:0.3333, 11:0.3333
+  standard weights (0.7071, 0.7071): mean score 1.8660, best-path share 0.9330, worst-score share 0.0670, per path 00:0.3110, 01:0.0670, 10:0.3110, 11:0.3110
+  hardware mean score 1.8335, uniform 1.5000
+  gain kept against the tuned reference: 0.667
+  gain kept against the standard reference: 0.911
+  z-score of the mean against uniform: null SE 24.6, empirical SE 38.6
+  global depolarising per transpiled CZ: 44 CZ, kept gain 0.667 -> p_eff = 0.92 %; (1 - 0.01)^44 = 0.643; median CZ error 0.237 % -> 0.901
+========================================================================================
+B2: m = 7 metrics, n = 3 stages, v = [1, 1, 0, 1, 0, 1, 1], backend ibm_fez
+  signed weight-3 codewords of ker(B^T): sigma = 1; matrix [[0.0, 2.6458], [2.6458, 0.8571]]; top eigenvalue 3.1088 -> mean score (m + lambda)/2 = 5.0544
+  weights from that matrix [0.648112, 0.761545], weights used on hardware [0.648112, 0.761545]
+     tuned weights (0.6481, 0.7615): mean score 5.0544, best-path share 0.5446, worst-score share 0.0174, per path 000:0.0058, 001:0.0058, 010:0.1095, 011:0.1095, 100:0.1095, 101:0.1095, 110:0.0058, 111:0.5446
+  standard weights (0.7071, 0.7071): mean score 5.0372, best-path share 0.5219, worst-score share 0.0034, per path 000:0.0011, 001:0.0011, 010:0.1187, 011:0.1187, 100:0.1187, 101:0.1187, 110:0.0011, 111:0.5219
+  hardware mean score 3.7280, uniform 3.5000
+  gain kept against the tuned reference: 0.147
+  gain kept against the standard reference: 0.148
+  z-score of the mean against uniform: null SE 11.0, empirical SE 10.3
+  best-path share z-score with the binomial null SE: 12.8
+  global depolarising per transpiled CZ: 179 CZ, kept gain 0.147 -> p_eff = 1.07 %; (1 - 0.01)^179 = 0.165; median CZ error 0.244 % -> 0.646
+  logical gates touching each path qubit (stage: two-qubit, Toffoli): stage 0: 8, 2; stage 1: 6, 2; stage 2: 4, 7

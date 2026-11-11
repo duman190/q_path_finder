@@ -1,0 +1,19 @@
+{
+ "note": "Hardware runs of 10 Nov 2026. Counts are as printed by Qiskit (string = c[n-1]..c[0], so stage j is character n-1-j). Calibration values are the figures shown on the IBM backend pages on the day of the runs (medians over the device, not the qubits used).",
+ "runs": [
+  {"instance": "B1", "backend": "ibm_marrakesh", "processor": "Heron r2", "shots": 4096,
+   "qasm": "qasm/b1.qasm", "physical_qubits": [137, 146, 147, 148, 149],
+   "transpiled_ops": {"cz": 44, "sx": 89, "rz": 70, "x": 3, "measure": 2},
+   "counts": {"01": 1467, "10": 341, "11": 1098, "00": 1190}},
+  {"instance": "B2", "backend": "ibm_fez", "processor": "Heron r2", "shots": 4096,
+   "qasm": "qasm/b2.qasm", "physical_qubits_read_from_low_resolution_image": [68, 69, 77, 78, 85, 86, 87, 88, 89, 90, 97],
+   "transpiled_ops": {"cz": 179, "sx": 370, "rz": 222, "x": 5, "measure": 3},
+   "counts": {"110": 776, "100": 513, "111": 783, "101": 462, "011": 408, "001": 404, "000": 419, "010": 331}}
+ ],
+ "calibration": {
+  "ibm_marrakesh": {"qubits": 156, "cz_error_median": 2.371e-3, "two_qubit_error_layered": 5.007e-3, "two_qubit_error_best": 1.163e-3,
+                    "sx_error_median": 4.129e-4, "readout_error_median": 1.660e-2, "init_error_median": 3.906e-3, "t1_median_us": 163.68, "t2_median_us": 92.88},
+  "ibm_fez": {"qubits": 156, "cz_error_median": 2.442e-3, "two_qubit_error_layered": 4.311e-3, "two_qubit_error_best": 1.232e-3,
+              "sx_error_median": 2.843e-4, "readout_error_median": 1.221e-2, "init_error_median": 1.956e-3, "t1_median_us": 134.33, "t2_median_us": 99.71}
+ }
+}

@@ -1,0 +1,50 @@
+numpy verification (Cirq not used)
+
+PASS  qudit: every op unitary (max |U^dag U - I|)                     4.441e-16
+PASS  qudit: decode gates are permutations                            1.000000
+PASS  qudit: state-prep column 0 = target state                       1.110e-16
+PASS  qudit: after decode, P(metric != 0000)                          0.000000
+PASS  qudit: final P(metric = 0000)                                   1.000000
+PASS  qudit: max |P_circuit - dqi()['prob']|                          6.939e-17
+PASS  qudit: no decode -> uniform, max |P - 1/25|                     6.939e-18
+PASS  qudit: P(best path) DQI circuit                                 0.713854
+PASS  qudit: number of best paths / best score                        6 / 3
+PASS  qudit: P(best path) uniform                                     0.240000
+PASS  qudit: E[metrics] DQI circuit                                   2.631071
+PASS  qudit: E[metrics] uniform random                                1.600000
+PASS  channel: depolarize2 vs explicit Pauli sum                      4.163e-17
+PASS  B1: every gate unitary                                          2.220e-16
+PASS  B1: P(metric qubits all 0)                                      1.000000
+PASS  B1: max |amplitude - direct definition| (signs included)        1.423e-16
+PASS  B1: max |P_circuit - P_direct|                                  1.665e-16
+PASS  B1: no decode -> uniform, max |P - 2^-n|                        1.110e-16
+PASS  B1: E[metrics] DQI / uniform / best                             2.0000 / 1.5000 / 2 of 3
+PASS  B1: P(best path) DQI / uniform                                  1.0000 / 0.7500
+PASS  B1: weights w0, w1                                              0.866025, 0.500000
+PASS  B1: qasm/b1.qasm parsed back, max |P - P_direct|                1.665e-16
+PASS  B1: score_counts cirq/qiskit order, TV of rounded exact counts  6.2e-33 / 6.2e-33
+PASS  B1: density-matrix sim (no noise) vs state vector               1.110e-16
+PASS  B2: every gate unitary                                          2.220e-16
+PASS  B2: P(metric qubits + ancilla all 0)                            1.000000
+PASS  B2: max |amplitude - direct definition| (signs included)        2.220e-16
+PASS  B2: max |P_circuit - P_direct|                                  1.388e-16
+PASS  B2: no decode -> uniform, max |P - 2^-n|                        2.776e-17
+PASS  B2: E[metrics] DQI / uniform / best                             5.0544 / 3.5000 / 6 of 7
+PASS  B2: P(best path) DQI / uniform                                  0.5446 / 0.1250
+PASS  B2: weights w0, w1                                              0.648112, 0.761545
+PASS  B2: qasm/b2.qasm parsed back, max |P - P_direct|                1.388e-16
+PASS  B2: score_counts cirq/qiskit order, TV of rounded exact counts  1.4e-06 / 1.4e-06
+PASS  B2: density-matrix sim (no noise) vs state vector               1.110e-16
+
+35/35 checks passed
+
+B1: 5 qubits (3 metric, 2 path); gates {'h': 2, 'x': 4, 'z': 1, 'ry': 5, 'cx': 10, 'ccx': 3, 'total': 25, 'two_qubit_cx_equiv': 28}; v = [1, 0, 0]
+B2: 11 qubits (7 metric, 3 path, 1 ancilla); gates {'h': 3, 'x': 8, 'z': 5, 'ry': 13, 'cx': 36, 'ccx': 9, 'total': 74, 'two_qubit_cx_equiv': 90}; v = [1, 1, 0, 1, 0, 1, 1]
+
+noise prediction (exact density matrix; 2-qubit depolarising p2 after every cx, six per ccx; readout bit-flip p_ro; bitstring character j = stage j)
+B1  ideal      00:0.3333  01:0.0000  10:0.3333  11:0.3333   mean metrics 2.0000
+B1  p2=0.003 p_ro=0.01 00:0.3241  01:0.0253  10:0.3277  11:0.3230   TV 0.0253   mean metrics 1.9494
+B1  p2=0.01  p_ro=0.02 00:0.3093  01:0.0687  10:0.3157  11:0.3063   TV 0.0687   mean metrics 1.8627
+B2  ideal      000:0.0058  001:0.0058  010:0.1095  011:0.1095  100:0.1095  101:0.1095  110:0.0058  111:0.5446   mean metrics 5.0544
+B2  p2=0.003 p_ro=0.01 000:0.0259  001:0.0306  010:0.1083  011:0.1184  100:0.1077  101:0.1169  110:0.0429  111:0.4494   TV 0.0983   mean metrics 4.7000
+B2  p2=0.01  p_ro=0.02 000:0.0592  001:0.0686  010:0.1110  011:0.1269  100:0.1092  101:0.1237  110:0.0895  111:0.3120   TV 0.2330   mean metrics 4.1894

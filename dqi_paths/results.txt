@@ -1,0 +1,75 @@
+p= 5 stages n=2 metrics m= 4 allowed r= 2 l=1 paths=      25 patterns=     17 decodable=True
+   checks: norm=1.000000000000 gram_err=2.2e-16 pipeline-vs-direct sector mismatch=1.6e-16
+   expected metrics satisfied: random 1.600 | interpolation 2.800 | DQI 2.631 | semicircle formula 3.497 | brute-force best 3 (6 paths)
+   as fractions of m: random 0.400 | interpolation 0.700 | DQI 0.658 | semicircle 0.874 | best 0.750
+   P(sample is an optimal path): DQI 0.7139 vs random 0.240000; w=[-0.6889 -0.7249]
+p= 7 stages n=3 metrics m= 6 allowed r= 3 l=1 paths=     343 patterns=     37 decodable=True
+   checks: norm=1.000000000000 gram_err=3.3e-16 pipeline-vs-direct sector mismatch=1.6e-16
+   expected metrics satisfied: random 2.571 | interpolation 4.286 | DQI 3.857 | semicircle formula 4.927 | brute-force best 6 (1 paths)
+   as fractions of m: random 0.429 | interpolation 0.714 | DQI 0.643 | semicircle 0.821 | best 1.000
+   P(sample is an optimal path): DQI 0.0220 vs random 0.002915; w=[-0.686  -0.7276]
+p=13 stages n=5 metrics m=12 allowed r= 6 l=2 paths=  371293 patterns=   9649 decodable=True
+   checks: norm=1.000000000000 gram_err=7.2e-13 pipeline-vs-direct sector mismatch=4.7e-16
+   expected metrics satisfied: random 5.538 | interpolation 8.231 | DQI 8.534 | semicircle formula 10.151 | brute-force best 12 (36 paths)
+   as fractions of m: random 0.462 | interpolation 0.686 | DQI 0.711 | semicircle 0.846 | best 1.000
+   P(sample is an optimal path): DQI 0.0071 vs random 0.000097; w=[-0.4067 -0.7055 -0.5804]
+p=17 stages n=5 metrics m=16 allowed r= 8 l=2 paths= 1419857 patterns=  30977 decodable=True
+   checks: norm=1.000000000000 gram_err=3.1e-12 pipeline-vs-direct sector mismatch=5.6e-16
+   expected metrics satisfied: random 7.529 | interpolation 10.176 | DQI 10.983 | semicircle formula 12.929 | brute-force best 16 (10 paths)
+   as fractions of m: random 0.471 | interpolation 0.636 | DQI 0.686 | semicircle 0.808 | best 1.000
+   P(sample is an optimal path): DQI 0.0008 vs random 0.000007; w=[-0.4082 -0.7061 -0.5787]
+p=31 stages n=3 metrics m=30 allowed r=15 l=1 paths=   29791 patterns=    901 decodable=True
+   checks: norm=1.000000000000 gram_err=7.9e-14 pipeline-vs-direct sector mismatch=1.2e-16
+   expected metrics satisfied: random 14.516 | interpolation 16.065 | DQI 17.269 | semicircle formula 19.931 | brute-force best 27 (1 paths)
+   as fractions of m: random 0.484 | interpolation 0.535 | DQI 0.576 | semicircle 0.664 | best 0.900
+   P(sample is an optimal path): DQI 0.0005 vs random 0.000034; w=[-0.705  -0.7092]
+p=61 stages n=3 metrics m=60 allowed r=30 l=1 paths=  226981 patterns=   3601 decodable=True
+   checks: norm=1.000000000000 gram_err=5.8e-13 pipeline-vs-direct sector mismatch=6.3e-17
+   expected metrics satisfied: random 29.508 | interpolation 31.033 | DQI 33.389 | semicircle formula 37.205 | brute-force best 46 (2 paths)
+   as fractions of m: random 0.492 | interpolation 0.517 | DQI 0.556 | semicircle 0.620 | best 0.767
+   P(sample is an optimal path): DQI 0.0001 vs random 0.000009; w=[-0.7064 -0.7079]
+closed form vs simulation
+  p= 5 n=2 l=1: simulated 2.631070844  closed form 2.684885780  diff 5.4e-02  (condition 2l+1 < n+1 holds: False)
+  p= 7 n=3 l=1: simulated 3.857142857  closed form 3.857142857  diff 8.9e-16  (condition 2l+1 < n+1 holds: True)
+  p=13 n=5 l=2: simulated 8.534478776  closed form 8.534478776  diff 7.1e-15  (condition 2l+1 < n+1 holds: True)
+  p=17 n=5 l=2: simulated 10.982952636  closed form 10.982952636  diff 1.4e-14  (condition 2l+1 < n+1 holds: True)
+  p=31 n=3 l=1: simulated 17.269493125  closed form 17.269493125  diff 3.6e-15  (condition 2l+1 < n+1 holds: True)
+  p=61 n=3 l=1: simulated 33.388865006  closed form 33.388865006  diff 0.0e+00  (condition 2l+1 < n+1 holds: True)
+closed form at larger sizes (fractions of m)
+  p=101 n=11 r=50 l=5: DQI closed form 0.6591 | semicircle 0.7135 | interpolation 0.5506 | random 0.4950
+  p=521 n=53 r=260 l=26: DQI closed form 0.6949 | semicircle 0.7171 | interpolation 0.5501 | random 0.4990
+  p=521 n=261 r=260 l=130: DQI closed form 0.9193 | semicircle 0.9325 | interpolation 0.7505 | random 0.4990
+  p=4099 n=411 r=2049 l=205: DQI closed form 0.7116 | semicircle 0.7179 | interpolation 0.5500 | random 0.4999
+  p=7 n=3: patterns with <= 1 nonzeros: 37, distinct syndromes: 37 -> unique decoding: True
+  p=7 n=3: patterns with <= 2 nonzeros: 577, distinct syndromes: 331 -> unique decoding: False
+  p=11 n=4: patterns with <= 2 nonzeros: 4601, distinct syndromes: 4601 -> unique decoding: True
+  p=11 n=4: patterns with <= 3 nonzeros: 124601, distinct syndromes: 14621 -> unique decoding: False
+toy instance p=5 n=2: allowed sets per metric y: {1: [0, 3], 2: [0, 4], 3: [2, 3], 4: [0, 1]}
+scores over paths (rows x0, cols x1):
+ [[3 1 1 1 2]
+ [1 1 3 0 3]
+ [1 3 2 1 1]
+ [2 1 2 3 0]
+ [1 2 0 3 2]]
+DQI probabilities (rows x0, cols x1):
+ [[0.119  0.0024 0.0024 0.0024 0.0388]
+ [0.0024 0.0024 0.119  0.0098 0.119 ]
+ [0.0024 0.119  0.0388 0.0024 0.0024]
+ [0.0388 0.0024 0.0388 0.119  0.0098]
+ [0.0024 0.0388 0.0098 0.119  0.0388]]
+  optimal path (0, 0) totals [0, 0, 0, 0] prob 0.119
+  optimal path (1, 2) totals [3, 0, 2, 4] prob 0.119
+  optimal path (1, 4) totals [0, 4, 3, 2] prob 0.119
+  optimal path (2, 1) totals [3, 4, 0, 1] prob 0.119
+  optimal path (3, 3) totals [1, 4, 2, 0] prob 0.119
+  optimal path (4, 3) totals [2, 0, 3, 1] prob 0.119
+B =
+ [[1 1]
+ [1 2]
+ [1 3]
+ [1 4]] 
+g_hat rows (abs):
+ [[0.    0.252 0.661 0.661 0.252]
+ [0.    0.661 0.252 0.252 0.661]
+ [0.    0.661 0.252 0.252 0.661]
+ [0.    0.661 0.252 0.252 0.661]]

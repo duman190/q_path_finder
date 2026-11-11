@@ -1,0 +1,18 @@
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+# Python
+__pycache__/
+*.pyc
+.venv/
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+# Word drafts
+*.docx
